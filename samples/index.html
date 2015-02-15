@@ -27,16 +27,6 @@
     <style type="text/css">
         body{ padding-top: 40px;}
 
-
-        /*a:hover .panel-heading{
-            background-color: cornflowerblue;
-        }
-
-        a:hover .panel{
-            border:2px groove  ;
-        }*/
-
-
     </style>
 </head>
 
@@ -51,7 +41,7 @@
         </div>
 
         <div class="row">
-             <a href="bar/index.html" class="tile">
+             <a href="bar/" class="tile">
               <div class="col-md-6" class="tile">
                   <div class="panel panel-default">
                       <div class="panel-heading">
@@ -129,8 +119,8 @@
              <!-- /.row -->
 
           <div class="row">
-              <!-- <a href="table/index.html" class="tile"> -->
-                  <div class="col-md-12" class="tile">
+              <a href="table/" class="tile">
+                  <div class="col-md-6" class="tile">
                       <div class="panel panel-default">
                           <div class="panel-heading">
                               <h3 class="panel-title">
@@ -143,7 +133,21 @@
 
                       </div>
                   </div>
-              <!-- </a> -->
+              </a>
+
+              <div class="col-md-6" class="tile">
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h3 class="panel-title">
+                              Arc Sample
+                          </h3>
+                      </div>
+                      <div class="panel-body">
+                          <div id="arc"></div>
+                      </div>
+
+                  </div>
+              </div>
 
               
           </div>
@@ -198,8 +202,12 @@ var dataTable = {
         "height": height,
         "padding": 60,
         "chartType": "bar",
-        "barColor": "steelblue",
-        "textAngle":-90
+        "xAxisLabelConfig":{
+            "fontSize" :"15px"
+        },
+        "yAxisLabelConfig":{
+            "fontSize" :"15px"
+        }
     }
 
     var scatterChartConfig = {
@@ -214,9 +222,14 @@ var dataTable = {
         "pointSize": 2,
         "chartType": "scatter",
         "textAngle":-90,
-        "dotColorUpperLimit":"red",
-        "dotColorLowerLimit":"blue"
-
+        "maxColor":"#ffff00",
+"minColor":"#ff00ff"
+        ,"xAxisLabelConfig":{
+            "fontSize" :"15px"
+        },
+        "yAxisLabelConfig":{
+            "fontSize" :"15px"
+        }
     }
 
     var mapConfig={
@@ -233,18 +246,7 @@ var dataTable = {
     }
 
 
-    var lineChartConfig = {
-        "title": "Title",
-        "yAxis": [3,5,7],
-        "lineColors":["yellow","red","blue"],
-        "xAxis": 5,
-        "interpolationMode":"basis",
-        "pointLabel": 0,
-        "width": document.getElementById("line").offsetWidth-90,
-        "height": height-60,
-        "padding": 60,
-        "chartType": "line"
-    }
+    
 
     var tableConfig = {
         "title": "Area By Country",
@@ -253,24 +255,80 @@ var dataTable = {
         "width": width,
         "height": height,
         "chartType": "table",
+        "colorBasedStyle" :true
+
     }
 
-   
+    var arcConfig = {
+        "width": width,
+        "height": height,
+        "chartType": "arc",
+        "diameter" : 200,
+        "value" : 75,
+    }
 
+
+    var lineChartConfig = {
+        "title": "Area By Country",
+        "xAxis": 0,
+        "yAxis": [1,2],
+        "padding": 60,
+        "width": width,
+        "height": height,
+        "textAngle" : -90,
+        "chartType": "line",
+        "lineColors": ["yellow"]
+    }
+
+
+
+var dataTable2 = {
+    "metadata":{
+        "names":["Country","Area","GDP","Inflation","Life.expect","Military","Pop.growth"],
+        "types":['C', 'N', 'N', 'N', 'N', 'N', 'N']
+    },
+    "data": [
+        ["Austria",83871,41600,3.5,79.91,0.8,0.03],
+        ["Belgium",30528,37800,3.5,79.65,1.3,0.06],
+        ["Bulgaria",110879,13800,4.2,73.84,2.6,-0.8],
+        ["Croatia",56594,18000,2.3,75.99,2.39,-0.09],
+        ["Czech Republic",78867,27100,1.9,77.38,1.15,-0.13],
+        ["Denmark",43094,37000,2.8,78.78,1.3,0.24],
+        ["Estonia",45228,20400,5,73.58,2,-0.65],
+        ["Finland",338145,36000,3.3,79.41,2,0.07]]
+}
     //draw a bar chart on div #bar
     igviz.plot("#bar",barChartConfig,dataTable);
     
     //draw a scatter chart on div #scatter
     igviz.plot("#scatter",scatterChartConfig,dataTable);
 
-    igviz.plot("#line",lineChartConfig,dataTable);
+
+    var lineData = new igviz.DataTable();
+    lineData.addColumn("Year","C");
+    lineData.addColumn("Sales","N");
+    lineData.addColumn("Expenses","N");
+             
+    lineData.addRows(
+        [
+            [2004,  1000,      400],
+            [2005,  1170,      460],
+            [2006,  660,       1120],
+            [2007,  1030,      540]
+        ]
+    );
+
+    //draw a line chart on 
+    igviz.plot("#line",lineChartConfig,lineData);
+
+
     igviz.plot("#map",mapConfig,dataTable);
     
-    //draw a line chart on 
-    igviz.plot("#line",lineChartConfig,dataTable);
-
+    
     //draw a table on div #table
-    igviz.plot("#table",tableConfig,dataTable);
+    igviz.plot("#table",tableConfig,dataTable2);
+    
+    igviz.plot("#arc",arcConfig,dataTable2);
 
 
 </script>
